@@ -61,3 +61,19 @@ def parse_text_playlist(text_playlist):
             name, time = parts
             playlist[name] = parse_time(time)
     return playlist
+
+import random
+
+def get_duration(playlist, n):
+    if isinstance(playlist, str):
+        playlist = parse_text_playlist(playlist)
+    elif isinstance(playlist, dict):
+        playlist = {name: parse_time(f"{int(duration)}.{int(duration % 1 * 100)}") for name, duration in playlist.items()}
+    
+    if n > len(playlist):
+        n = len(playlist)
+    
+    selected_songs = random.sample(list(playlist.values()), n)
+    total_duration = sum(selected_songs, timedelta())
+    
+    return total_duration
