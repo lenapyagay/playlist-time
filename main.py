@@ -17,6 +17,8 @@
 # При этом функций в задаче может быть несколько. То есть решение можно разбить на несколько функций.
 # Но результат задачи можно получить вызвав одну функцию!
 # get_duration(playlist: Iterable, n: int) -> Any
+
+
 import random
 from datetime import timedelta
 
@@ -24,7 +26,7 @@ playlist_e = """
 Sunday 5:09
 Why Does My Heart Feel so Bad? 4.23
 Everlong 3.25
-To Let Myself Go
+To Let Myself Go 2.34
 Golden 2.56
 Daisuke 2.41
 Miami 3.31
@@ -34,25 +36,26 @@ Resonance 3.32
 """
 
 playlist_b = {
-	'Портофино': 3.32,
-	'Снег': 4.35,
-	'Попытка №5': 3.23,
-	'Тополиный Пух': 3.53,
-	'Если хочешь остаться': 4.48,
-	'Зеленоглазое такси': 5.52,
-	'Ты не верь слезам': 3.1,
-	'Nowhere to Run': 2.58,
-	'Салют, Вера': 4.44,
-	'Улетаю': 3.24,
-	'Опять метель': 3.37,
-	}
+  'Портофино': 3.32,
+  'Снег': 4.35,
+  'Попытка №5': 3.23,
+  'Тополиный Пух': 3.53,
+  'Если хочешь остаться': 4.48,
+  'Зеленоглазое такси': 5.52,
+  'Ты не верь слезам': 3.1,
+  'Nowhere to Run': 2.58,
+  'Салют, Вера': 4.44,
+  'Улетаю': 3.24,
+  'Опять метель': 3.37,
+  }
 
-# Функция для преобразования времени в формате "минуты.секунды" в объект timedelta
+# Функция для преобразования времени в формате "минуты.секунды" или "минуты:секунды" в объект timedelta
 def parse_time(time_str):
-    minutes, seconds = map(int, time_str.split("."))
+    separator = ':' if ':' in time_str else '.'
+    minutes, seconds = map(int, time_str.split(separator))
     return timedelta(minutes=minutes, seconds=seconds)
 
-# Функция для преобразования многострочного текста в список кортежей (название песни, время звучания)
+# Функция для преобразования многострочного текста в словарь с песнями
 def parse_text_playlist(text_playlist):
     playlist = {}
     for line in text_playlist.strip().splitlines():
@@ -62,44 +65,27 @@ def parse_text_playlist(text_playlist):
             playlist[name] = parse_time(time)
     return playlist
 
-
+# Основная функция для вычисления общей длительности случайных песен
 def get_duration(playlist, n):
+    # Определяем, является ли плейлист строкой или словарем
     if isinstance(playlist, str):
-        playlist = parse_text_playlist(playlist)
+        playlist = parse_text_playlist(playlist)  # Преобразуем текст в словарь
     elif isinstance(playlist, dict):
-        playlist = {name: parse_time(f"{int(duration)}.{int(duration % 1 * 100)}") for name, duration in playlist.items()}
+        # Преобразуем значение времени в формате "минуты.секунды" в timedelta
+        playlist = {name: parse_time(f"{int(duration)}:{int(duration % 1 * 100)}") for name, duration in playlist.items()}
     
+    # Проверка, чтобы n не превышало количество песен
     if n > len(playlist):
         n = len(playlist)
     
+    # Выбираем случайные песни и суммируем их длительность
     selected_songs = random.sample(list(playlist.values()), n)
     total_duration = sum(selected_songs, timedelta())
     
-    return total_duration
+    return total_duration  # Вернуть как timedelta
 
-# Тесты для parse_time
-print(parse_time("5.09"))  # Ожидаемый вывод: 0:05:09
-print(parse_time("3.25"))  # Ожидаемый вывод: 0:03:25
+# Тестирование функции
+print("Общее время 3 случайных песен (playlist_e):", get_duration(playlist_e, 3))
+print("Общее время 2 случайных песен (playlist_b):", get_duration(playlist_b, 2))
 
-# Тест для parse_text_playlist
-parsed_playlist = parse_text_playlist(playlist_e)
-print(parsed_playlist)
 
-def get_duration(playlist, n):
-    if isinstance(playlist, str):
-        playlist = parse_text_playlist(playlist)
-    elif isinstance(playlist, dict):
-        playlist = {name: parse_time(f"{int(duration)}.{int(duration % 1 * 100)}") for name, duration in playlist.items()}
-    
-    # Проверка, что n не больше количества песен
-    if n > len(playlist):
-        n = len(playlist)
-    
-    selected_songs = random.sample(list(playlist.values()), n)
-    total_duration = sum(selected_songs, timedelta())
-    
-    return total_duration
-
-# Тесты для get_duration
-print(get_duration(playlist_e, 3))  
-print(get_duration(playlist_b, 2))
