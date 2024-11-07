@@ -62,7 +62,6 @@ def parse_text_playlist(text_playlist):
             playlist[name] = parse_time(time)
     return playlist
 
-import random
 
 def get_duration(playlist, n):
     if isinstance(playlist, str):
@@ -77,3 +76,8 @@ def get_duration(playlist, n):
     total_duration = sum(selected_songs, timedelta())
     
     return total_duration
+
+# Тесты для parse_time
+print(parse_time("5.09"))  # Ожидаемый вывод: 0:05:09
+print(parse_time("3.25"))  # Ожидаемый вывод: 0:03:25
+
