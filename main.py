@@ -81,3 +81,7 @@ def get_duration(playlist, n):
 print(parse_time("5.09"))  # Ожидаемый вывод: 0:05:09
 print(parse_time("3.25"))  # Ожидаемый вывод: 0:03:25
 
+# Тест для parse_text_playlist
+parsed_playlist = parse_text_playlist(playlist_e)
+print(parsed_playlist)
+
