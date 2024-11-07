@@ -17,6 +17,8 @@
 # При этом функций в задаче может быть несколько. То есть решение можно разбить на несколько функций.
 # Но результат задачи можно получить вызвав одну функцию!
 # get_duration(playlist: Iterable, n: int) -> Any
+import random
+from datetime import timedelta
 
 playlist_e = """
 Sunday 5:09
@@ -45,4 +47,7 @@ playlist_b = {
 	'Опять метель': 3.37,
 	}
 
-
+# Функция для преобразования времени в формате "минуты.секунды" в объект timedelta
+def parse_time(time_str):
+    minutes, seconds = map(int, time_str.split("."))
+    return timedelta(minutes=minutes, seconds=seconds)
