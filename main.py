@@ -99,3 +99,7 @@ def get_duration(playlist, n):
     total_duration = sum(selected_songs, timedelta())
     
     return total_duration
+
+# Тесты для get_duration
+print(get_duration(playlist_e, 3))  
+print(get_duration(playlist_b, 2))
