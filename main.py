@@ -84,8 +84,12 @@ def get_duration(playlist, n):
     
     return total_duration  # Вернуть как timedelta
 
+
+nuber_of_songs1 = int(input("Введите количество песен:"))
+nuber_of_songs2 = int(input("Введите количество песен:"))
 # Тестирование функции
-print("Общее время 3 случайных песен (playlist_e):", get_duration(playlist_e, 3))
-print("Общее время 2 случайных песен (playlist_b):", get_duration(playlist_b, 2))
+print("Общее время {n1} случайных песен (playlist_e):".format(n1=nuber_of_songs1), get_duration(playlist_e, nuber_of_songs1))
+print("Общее время {n2} случайных песен (playlist_b):".format(n2=nuber_of_songs2), get_duration(playlist_b, nuber_of_songs2))
 
 
+4
