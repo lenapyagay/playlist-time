@@ -92,4 +92,3 @@ print("Общее время {n1} случайных песен (playlist_e):".f
 print("Общее время {n2} случайных песен (playlist_b):".format(n2=nuber_of_songs2), get_duration(playlist_b, nuber_of_songs2))
 
 
-4
