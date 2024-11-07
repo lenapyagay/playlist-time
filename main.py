@@ -51,3 +51,13 @@ playlist_b = {
 def parse_time(time_str):
     minutes, seconds = map(int, time_str.split("."))
     return timedelta(minutes=minutes, seconds=seconds)
+
+# Функция для преобразования многострочного текста в список кортежей (название песни, время звучания)
+def parse_text_playlist(text_playlist):
+    playlist = {}
+    for line in text_playlist.strip().splitlines():
+        parts = line.rsplit(" ", 1)
+        if len(parts) == 2:
+            name, time = parts
+            playlist[name] = parse_time(time)
+    return playlist
